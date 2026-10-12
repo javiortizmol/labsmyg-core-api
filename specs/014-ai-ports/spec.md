@@ -17,9 +17,9 @@ Cuatro puertos: texto/razonamiento, lectura de documentos, búsqueda semántica,
 
 Ninguna salida de IA aprueba, firma ni envía sola. Todo queda marcado como propuesta hasta confirmación humana; uso auditado.
 
-### User Story 3 - La IA no bloquea el negocio (Priority: P1)
+### User Story 3 - IA primero, manual si falla (Priority: P1)
 
-Si la IA falla, expira, no está disponible o devuelve baja confianza, el usuario completa el mismo flujo a mano (formularios, confirmaciones, cargas) sin esperar al agente ni quedar en un estado bloqueado.
+Los flujos asistidos **se inician por IA** (camino feliz / aceleración). Si la IA falla, expira, no está disponible, devuelve baja confianza o el usuario rechaza la propuesta, el mismo proceso **continúa por la ruta manual** (formularios, confirmaciones, cargas) sin esperar al agente ni quedar bloqueado. La IA no es un hard gate; el manual es fallback obligatorio (y puede elegirse de entrada cuando el producto permita omitir IA).
 
 **Independent Test**: Simular timeout o error del puerto de texto/documento en un flujo con asistencia IA; verificar que la transición de dominio sigue disponible vía API/UI manual.
 
@@ -38,9 +38,9 @@ Si la IA falla, expira, no está disponible o devuelve baja confianza, el usuari
 - **FR-005**: Auditoría de cada uso (entrada, salida, modelo, versión, quien aprobó).
 - **FR-006**: Extracción Excel de resultados NO es IA (mapeo fijo).
 - **FR-007**: Asistente cliente solo datos del sistema del contacto verificado; sin resultados ni opiniones técnicas.
-- **FR-008**: Ningún flujo de negocio exige éxito de IA para avanzar: cada capacidad asistida por puertos/agentes MUST exponer equivalente manual en la API y UI del dominio dueño (formularios, confirmaciones, cargas).
-- **FR-009**: Fallos, timeouts, indisponibilidad del proveedor y propuestas de baja confianza MUST degradar a la ruta manual (sin estados bloqueados ni espera obligatoria de workers/agentes).
-- **FR-010**: Jobs asíncronos que invocan IA MUST NOT ser la única vía a una transición de estado válida; errores de job MUST liberar el flujo manual documentado en el caso de uso.
+- **FR-008**: Flujos asistidos MUST ser **AI-first**: donde haya asistencia, se inicia por IA; ningún flujo exige éxito de IA para avanzar. Cada capacidad asistida MUST exponer equivalente manual en la API y UI del dominio dueño (formularios, confirmaciones, cargas); skip/upfront manual cuando el producto lo permita.
+- **FR-009**: Fallos, timeouts, indisponibilidad del proveedor, rechazo del usuario y propuestas de baja confianza MUST continuar por la **ruta manual obligatoria** (sin estados bloqueados ni espera obligatoria de workers/agentes).
+- **FR-010**: Jobs asíncronos que invocan IA MUST NOT ser la única vía a una transición de estado válida; errores de job MUST liberar el flujo manual documentado en el caso de uso (mismo resultado que vía IA exitosa).
 
 ## Related
 

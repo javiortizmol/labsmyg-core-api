@@ -1,6 +1,6 @@
 <!--
 Sync Impact Report
-- Version: 1.3.0 → 1.4.0 (MINOR: Product — AI never blocks processes; manual fallback always available)
+- Version: 1.4.0 → 1.5.0 (MINOR: Product — AI-first with mandatory manual fallback)
 - Version: 1.2.0 → 1.3.0 (MINOR: Ownership — labsmyg-agents sibling for agent defs)
 - Version: 1.1.0 → 1.2.0 (MINOR: Identity & Access theme; blueprint path in docs/)
 - Version: 1.0.0 → 1.1.0 (MINOR: Product domain model + architecture non-negotiables
@@ -17,7 +17,7 @@ Specs in `specs/` carry feature detail. Speckit is mandatory for every change.
 **Themes:** Product · Architecture & Data · Identity & Access · Quality ·
 Ownership · Governance
 
-**Version**: 1.4.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
+**Version**: 1.5.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
 
 **Product source**: [`docs/blueprint-plataforma-laboratorios-mg.md`](../../docs/blueprint-plataforma-laboratorios-mg.md)
 (Blueprint Laboratorios M&G, versión preliminar; se cierra al final de la fase 0).
@@ -103,7 +103,7 @@ private counter. Every record also has a technical UUID not shown to users.
 |-----------|----------|
 | Traceable by design | Audit from day one; no silent writes |
 | AI proposes, a person decides | AI never approves, signs, or sends compromising output alone |
-| AI never blocks the process | Optional acceleration only: every AI-assisted flow has a manual equivalent; failures, timeouts, and low confidence degrade to manual UI/API — workers and model calls MUST NOT hold state machines hostage |
+| AI-first with mandatory manual fallback | Assisted flows start with AI (happy path); on failure, timeout, unavailability, low confidence, or user rejection, continue on manual to the same outcome — se inicia por IA; si no funciona, se va por manual. AI is never a hard gate; skip/upfront manual when product allows. Workers and model calls MUST NOT hold state machines hostage |
 | Configurable before coded | Sites, labs, roles, signers, deadlines, templates, policies in data |
 | Confidentiality by default | Analyst without client identity; notebooks restricted |
 | Coexist and absorb | Migrate in slices; absorb metrology/intake that works |
