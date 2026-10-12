@@ -17,6 +17,18 @@ Cuatro puertos: texto/razonamiento, lectura de documentos, búsqueda semántica,
 
 Ninguna salida de IA aprueba, firma ni envía sola. Todo queda marcado como propuesta hasta confirmación humana; uso auditado.
 
+### User Story 3 - La IA no bloquea el negocio (Priority: P1)
+
+Si la IA falla, expira, no está disponible o devuelve baja confianza, el usuario completa el mismo flujo a mano (formularios, confirmaciones, cargas) sin esperar al agente ni quedar en un estado bloqueado.
+
+**Independent Test**: Simular timeout o error del puerto de texto/documento en un flujo con asistencia IA; verificar que la transición de dominio sigue disponible vía API/UI manual.
+
+**Acceptance Scenarios**:
+
+1. **Given** un flujo con extracción asistida por IA, **When** el puerto devuelve error o timeout, **Then** el usuario puede ingresar los mismos datos manualmente y confirmar sin depender de reintentos de IA.
+2. **Given** un job asíncrono de agente en curso, **When** el job falla o se agota el tiempo, **Then** el agregado no queda en un estado que solo la IA puede desbloquear; la máquina de estados admite la ruta manual equivalente.
+3. **Given** baja confianza en una propuesta de IA, **When** el usuario la rechaza o ignora, **Then** puede completar la acción editando campos a mano como si no hubiera usado IA.
+
 ## Requirements
 
 - **FR-001**: Cuatro puertos hexagonales + adaptadores AWS en los 10 meses (Bedrock, Textract, Knowledge Bases, Guardrails).
@@ -26,6 +38,9 @@ Ninguna salida de IA aprueba, firma ni envía sola. Todo queda marcado como prop
 - **FR-005**: Auditoría de cada uso (entrada, salida, modelo, versión, quien aprobó).
 - **FR-006**: Extracción Excel de resultados NO es IA (mapeo fijo).
 - **FR-007**: Asistente cliente solo datos del sistema del contacto verificado; sin resultados ni opiniones técnicas.
+- **FR-008**: Ningún flujo de negocio exige éxito de IA para avanzar: cada capacidad asistida por puertos/agentes MUST exponer equivalente manual en la API y UI del dominio dueño (formularios, confirmaciones, cargas).
+- **FR-009**: Fallos, timeouts, indisponibilidad del proveedor y propuestas de baja confianza MUST degradar a la ruta manual (sin estados bloqueados ni espera obligatoria de workers/agentes).
+- **FR-010**: Jobs asíncronos que invocan IA MUST NOT ser la única vía a una transición de estado válida; errores de job MUST liberar el flujo manual documentado en el caso de uso.
 
 ## Related
 
