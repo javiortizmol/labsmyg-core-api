@@ -1,0 +1,33 @@
+---
+description: Product conflict gate — evaluate at plan time before tasks/implement
+alwaysApply: true
+---
+
+# Product Conflict Gate
+
+Evaluate product conflicts **at plan time** (primary). Speckit `plan.md` MUST
+include `## Product Conflict Check` (template in `.specify/templates/plan-template.md`).
+
+## When
+
+1. **Plan (required)** — after Constitution Check; before tasks/implement.
+2. **Tasks expand scope** — re-check lightly; update the plan table.
+3. **Analyze / converge** — may repeat; never the first conflict pass.
+
+## What to check
+
+- Constitution and vocabulary (source identifiers and comments in English; UI copy stays localized)
+- Which Labs MYG repo owns the change
+- Auth, roles, and realms when identity is touched
+- Application security (no cross-tenant data use, no silent impersonation)
+- Contradictions with related `specs/*` (cite IDs)
+- Sibling repos stay coherent: `labsmyg-core-api`, `labsmyg-core-front`, `labsmyg-idm`, `labsmyg-notifications`, `labsmyg-iac`, `labsmyg-tf-modules`, `labsmyg-pipe-templates`
+- Quality and TDD: coded behavior needs regression tests; do not force a green suite by weakening assertions
+- Spec ↔ code: material changes update `specs/` when implementation drifts
+- Breaking API or UX migrations are called out
+
+## Fail policy
+
+Any **Fail** or unresolved conflict **blocks** tasks/implement until resolved.
+Resolve by changing this feature’s artifacts, amending the conflicting locked
+spec, or amending the constitution — never by weakening or skipping the gate.

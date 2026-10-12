@@ -1,0 +1,86 @@
+[project]
+name = "labsmyg-core-api"
+version = "0.1.0"
+description = "Labs MYG core API"
+readme = "README.md"
+requires-python = ">=3.12"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.0",
+  "pytest-cov>=6.0.0",
+  "pytest-xdist>=3.6.0",
+  "diff-cover>=9.2.0",
+  "ruff>=0.8.0",
+  "black>=25.1.0",
+  "pylint>=3.3.0",
+  "pip-audit>=2.7.0",
+  "bandit>=1.8.0",
+  "cvss>=3.1",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101"]
+
+[build-system]
+requires = ["setuptools>=75.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+package = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+
+# Black owns formatting; Ruff owns lint (incl. import order via I*). Do not run `ruff format`.
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.pylint.main]
+jobs = 1
+py-version = "3.12"
+ignore-paths = ["tests", "\\.venv"]
+persistent = true
+
+[tool.pylint.messages_control]
+disable = [
+  "C",
+  "R0903",
+  "R0801",
+  "E0401",
+]
+enable = [
+  "C0415",
+]
+
+[tool.pylint.reports]
+output-format = "colorized"
+score = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "unit: no external services required",
+]
+
+[tool.coverage.run]
+source = ["app"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 90

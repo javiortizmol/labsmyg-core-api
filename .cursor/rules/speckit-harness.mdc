@@ -1,0 +1,70 @@
+---
+description: Transparent Speckit harness — auto-apply before vibe-coding work
+alwaysApply: true
+---
+
+# Speckit harness (transparent)
+
+The user MUST NOT need to run `/speckit-*` or remember Speckit steps. On every
+product/code request in this repo, the agent MUST bootstrap the harness
+**silently** before editing, then do the work.
+
+## Before any material change
+
+1. Read `.specify/memory/constitution.md` (non-negotiables).
+2. Read `.specify/feature.json` when it exists and resolve `feature_directory`.
+   If it does not exist, this change starts a new `specs/` slice before code.
+3. From repo root, when a feature directory exists, run:
+   `python3 .specify/scripts/python/check_prerequisites.py --json --paths-only`
+   (use `--json --require-tasks --include-tasks` when implementing coded work).
+4. Skim the active feature’s `spec.md` / `plan.md` / `tasks.md` as needed for
+   the ask — do not invent a parallel process outside `specs/`.
+5. Obey project rules: quality gates, sibling-repo ownership, and this constitution.
+
+## Map the user’s ask (no slash commands required)
+
+| User intent | Agent does (internally, using skills as playbooks) |
+|-------------|-----------------------------------------------------|
+| New capability / “quiero que…” with no spec | specify → **plan (incl. Product Conflict Check)** → tasks → implement |
+| Continue / finish current feature | implement from `tasks.md`; converge if code drifted from spec |
+| Bugfix / small change on existing feature | constitution + conflict check vs related specs → fix + tests (+ plan/tasks update) |
+| Docs-only / chore | still update active feature docs/tasks; never skip Speckit |
+
+**Speckit is mandatory for every change.** No spike mode and no “skip Speckit”
+path. Even tiny fixes MUST attach to the active feature (or create a new
+`specs/` slice via specify → plan → tasks) before or while implementing.
+
+## Product Conflict Check (mandatory at plan)
+
+**Best time: while writing/updating `plan.md`** — after Constitution Check, before
+tasks/implement. Do not wait for analyze/converge as the first conflict pass.
+
+When planning (or amending a plan for new scope), the agent MUST:
+
+1. Fill `## Product Conflict Check` in `plan.md` (see plan template).
+2. Scan related locked/active specs and sibling repos when the change crosses
+   API, front, IdM, notifications, IaC, pipe templates, or Terraform modules.
+3. Flag contradictions with the constitution, ownership, auth, or other FRs.
+4. **Block tasks/implement** while any conflict row is Fail or “Unresolved
+   conflicts” is non-empty — resolve by editing this feature, the conflicting
+   spec, or the constitution (explicit amend).
+
+Re-run a light conflict pass if tasks expand scope materially.
+
+Treat `.cursor/skills/speckit-*/SKILL.md` as **internal playbooks**. Follow their
+steps without asking the user to invoke them.
+
+## After coded changes
+
+- While iterating Python under `app/`, MAY use `make quality-fast` (diff ≥90% on changed `app/` lines).
+- Before claiming done: keep **`make quality`** green (full suite + global ≥90% on `app/`). Pre-push runs `make quality`.
+- Run `make audit` separately when touching dependencies or security-sensitive code.
+- Update `tasks.md` checkboxes honestly when claiming work done.
+
+## Do not
+
+- Ask the user to run `/speckit-specify`, `/speckit-plan`, etc.
+- Skip the constitution because the request sounded “quick”.
+- Skip Speckit, tasks, or the active feature trail for any change.
+- Start a new `specs/` folder when `feature.json` already points at the right feature
+  (unless the user clearly wants a new feature).
