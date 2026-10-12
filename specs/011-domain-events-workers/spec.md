@@ -32,4 +32,5 @@ Tabla de vencimientos revisada periódicamente (no miles de schedules AWS). Jobs
 
 ## Related
 
-008 · 003 · iac EventBridge/SQS · workers en este repo
+008 · 003 · iac EventBridge/SQS · workers en este repo  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (outbox_message) · `025-domain-er-model`

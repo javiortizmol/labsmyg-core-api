@@ -32,4 +32,5 @@ Equipos, calibraciones; bloquear equipo vencido; listar ensayos afectados si se 
 
 ## Related
 
-006 · 007 · 004 · 014 · front 008-laboratory-ui
+006 · 007 · 004 · 014 · front 008-laboratory-ui  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (lab_assignment, sample_test, result — F4) · `025-domain-er-model`

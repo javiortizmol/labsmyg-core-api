@@ -39,4 +39,5 @@ Formato código/stickers · plazos disposición · inspección sin respuesta del
 
 ## Related
 
-002 · 005 · 010 · 011 · front 005
+002 · 005 · 010 · 011 · front 005  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (order, reception, sample) · `025-domain-er-model`

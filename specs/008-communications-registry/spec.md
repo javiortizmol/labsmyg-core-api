@@ -33,4 +33,5 @@ Consumir enviado/entregado/leído/fallido y guardarlo en el COM; descartar versi
 
 ## Related
 
-notifications 001–005 · 007 · 011 · front 006
+notifications 001–005 · 007 · 011 · front 006  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (communication, com_association) · `025-domain-er-model`

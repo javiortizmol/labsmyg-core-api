@@ -37,7 +37,7 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 | 3.7 | Comunicaciones | Specs | `008` + `notifications` 001–005 |
 | 3 Analítica | Listas MVP / tableros | Specs | `016` + front `010`; tableros 2/4/5 después |
 | 4 | Flujo 12 pasos | Mapa E2E | `023` + specs por paso |
-| 5 | Modelo de datos | Por dominio en specs + glosario | `docs/domain-glossary.md` |
+| 5 | Modelo de datos | ER por dominio + glosario | `025` · [`docs/domain-er-model.md`](../../docs/domain-er-model.md) · `docs/domain-glossary.md` |
 | 6 | Arquitectura / stack | Constitution **II** + plans | `001`, `011`, `010`, `014` |
 | 7 | Lineamientos / monorepo→repos | READMEs specs + constitution | multi-repo map |
 | 8 | AWS / operación | Specs | `iac` 001–002, `tf-modules` 001 |
@@ -71,6 +71,7 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 |---|---|---|---|
 | Constitution Product (7 dominios) | Presente 1.2.0 | 0 | constitution |
 | Glosario ES→EN + blueprint en docs/ | Presente | 0 | `docs/*` |
+| ER preliminar por dominios | Presente (doc) | 0 | `025` · `docs/domain-er-model.md` |
 | Andamiaje API | Ausente (código) | 1 | `001` |
 | Plataforma org/numeración | Ausente | 1 | `002` |
 | Auditoría encadenada | Ausente | 1 | `003` |

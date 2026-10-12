@@ -21,10 +21,11 @@ Desde cotización aceptada se genera proforma/PDF en segundo plano (202 + seguim
 
 - **FR-001**: Puerto de archivos; solo backend lee/escribe con IAM; personas reciben URL temporal.
 - **FR-002**: Buckets por sensibilidad (cuadernos más restringidos); versionado; Object Lock para emitidos/auditoría.
-- **FR-003**: Metadatos en DB: ubicación + huella; sin bytes en MySQL.
+- **FR-003**: Metadatos en DB (`document`): key S3 estable por `document_id`, huella, FKs opcionales a customer/reception/sample/order; sin bytes en MySQL. Prefijos por tipo (no carpeta cliente como SoT) — ver `docs/domain-er-model.md`.
 - **FR-004**: Generación PDF (WeasyPrint o browser headless) asíncrona vía workers.
 - **FR-005**: Subidas con límite de tamaño/tipo en la URL firmada.
 
 ## Related
 
-007 fotos · 006 cuadernos · 013 informes · iac buckets
+007 fotos · 006 cuadernos · 013 informes · iac buckets  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (`document` + S3 prefixes) · `025-domain-er-model`

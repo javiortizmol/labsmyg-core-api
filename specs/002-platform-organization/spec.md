@@ -41,4 +41,5 @@ Laboratorio piloto · formato código de muestra · sedes en otros países.
 
 ## Related
 
-003-audit-trail · 004-authorization · front 002-platform-admin-ui
+003-audit-trail · 004-authorization · front 002-platform-admin-ui  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (company, site, laboratory, sequence) · `025-domain-er-model`

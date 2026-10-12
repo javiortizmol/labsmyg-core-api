@@ -29,4 +29,5 @@ Código de un solo uso al correo del contacto; TTL minutos; bloqueo por intentos
 
 ## Related
 
-005 · 008 · notifications 005 · front 007-public-portal
+005 · 008 · notifications 005 · front 007-public-portal  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (approval_challenge) · `025-domain-er-model`

@@ -38,4 +38,5 @@ Identificación/factura/cobro de clientes exterior · cobro al quitar ensayo · 
 
 ## Related
 
-006 · 007 · 009 · front 003 · portal 007
+006 · 007 · 009 · front 003 · portal 007  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (customer, quote, request) · `025-domain-er-model`

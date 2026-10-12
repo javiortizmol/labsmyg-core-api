@@ -41,4 +41,5 @@ Fecha emisión vs aprobación técnica · entidad de firma · software factura �
 
 ## Related
 
-009 · 010 · 006 · front 007/009
+009 · 010 · 006 · front 007/009  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (report, report_version — F4) · `025-domain-er-model`

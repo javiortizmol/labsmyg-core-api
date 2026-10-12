@@ -27,7 +27,7 @@ Estados: inactive, deleted, voided (documentos emitidos). Sin borrado físico de
 
 ## Requirements
 
-- **FR-001**: Tabla solo inserción; app sin update/delete.
+- **FR-001**: Tabla solo inserción en schema/database lógico `audit` (mismo servidor); app sin update/delete.
 - **FR-002**: Campos de actor, acción, entidad, sede, before/after; si IA: modelo + quien aprobó.
 - **FR-003**: Hash encadenado + verificador.
 - **FR-004**: Misma transacción que la escritura de negocio.
@@ -41,4 +41,5 @@ Años de retención por tipo de registro.
 
 ## Related
 
-Todos los dominios · copia S3 vía 011 + iac · front 011-audit-explorer-ui
+Todos los dominios · copia S3 vía 011 + iac · front 011-audit-explorer-ui  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (schema `audit`) · `025-domain-er-model`

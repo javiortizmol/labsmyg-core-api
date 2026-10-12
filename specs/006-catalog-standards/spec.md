@@ -37,4 +37,5 @@ Fuente de vigilancia de normas · reglas de precio/ensayos en curso · cliente q
 
 ## Related
 
-005 · 014 (fase 2) · 012 · front 004
+005 · 014 (fase 2) · 012 · front 004  
+ER: [`docs/domain-er-model.md`](../../docs/domain-er-model.md) (standard, catalog_test, price) · `025-domain-er-model`
