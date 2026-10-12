@@ -21,7 +21,7 @@ include `## Product Conflict Check` (template in `.specify/templates/plan-templa
 - Auth, roles, and realms when identity is touched
 - Application security (no cross-tenant data use, no silent impersonation)
 - Contradictions with related `specs/*` (cite IDs)
-- Sibling repos stay coherent: `labsmyg-core-api`, `labsmyg-core-front`, `labsmyg-idm`, `labsmyg-notifications`, `labsmyg-iac`, `labsmyg-tf-modules`, `labsmyg-pipe-templates`
+- Sibling repos stay coherent: `labsmyg-core-api`, `labsmyg-core-front`, `labsmyg-idm`, `labsmyg-notifications`, `labsmyg-agents`, `labsmyg-iac`, `labsmyg-tf-modules`, `labsmyg-pipe-templates`
 - Quality and TDD: coded behavior needs regression tests; do not force a green suite by weakening assertions
 - Spec ↔ code: material changes update `specs/` when implementation drifts
 - Breaking API or UX migrations are called out

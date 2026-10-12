@@ -1,5 +1,6 @@
 <!--
 Sync Impact Report
+- Version: 1.2.0 → 1.3.0 (MINOR: Ownership — labsmyg-agents sibling for agent defs)
 - Version: 1.1.0 → 1.2.0 (MINOR: Identity & Access theme; blueprint path in docs/)
 - Version: 1.0.0 → 1.1.0 (MINOR: Product domain model + architecture non-negotiables
   from Blueprint Laboratorios M&G; domains must be followed strictly)
@@ -15,7 +16,7 @@ Specs in `specs/` carry feature detail. Speckit is mandatory for every change.
 **Themes:** Product · Architecture & Data · Identity & Access · Quality ·
 Ownership · Governance
 
-**Version**: 1.2.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
+**Version**: 1.3.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
 
 **Product source**: [`docs/blueprint-plataforma-laboratorios-mg.md`](../../docs/blueprint-plataforma-laboratorios-mg.md)
 (Blueprint Laboratorios M&G, versión preliminar; se cierra al final de la fase 0).
@@ -227,6 +228,8 @@ live in `labsmyg-pipe-templates`. Shared AWS primitives live in
 `labsmyg-tf-modules` and are wired from `labsmyg-iac`. Identity configuration
 lives in `labsmyg-idm`. Outbound delivery mechanics live in
 `labsmyg-notifications`. Browser clients live in `labsmyg-core-front`.
+Domain AI **agent definitions** (prompts, evals, MCP contracts) live in
+`labsmyg-agents`; AI **ports and AWS adapters** stay in this API (`014-ai-ports`).
 
 Cloud account layout, VPC, RDS, SES DNS, ECS wiring → **iac specs**, not here.
 Reusable `aws_*` modules → **tf-modules**, not duplicated here.

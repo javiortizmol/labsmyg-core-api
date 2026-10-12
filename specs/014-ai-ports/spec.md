@@ -29,4 +29,6 @@ Ninguna salida de IA aprueba, firma ni envía sola. Todo queda marcado como prop
 
 ## Related
 
-006/007/008 fases 2–3 · constitution de producto · notificaciones push “listo”
+006/007/008 fases 2–3 · constitution de producto · notificaciones push “listo”  
+Agent definitions / prompts / evals / MCP contracts → sibling repo `labsmyg-agents`
+(ports and adapters stay here).

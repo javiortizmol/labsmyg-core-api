@@ -14,6 +14,7 @@ El blueprint describe un monorepo (`backend/`, `frontend/`, `infra/`, `notificat
 | módulos Terraform | `labsmyg-tf-modules` |
 | Keycloak | `labsmyg-idm` |
 | `notifications/` | `labsmyg-notifications` |
+| agentes IA (defs / evals / MCP) | `labsmyg-agents` |
 | workflows reutilizables | `labsmyg-pipe-templates` |
 
 | Spec | Fase | Qué cubre en este repo |
@@ -42,5 +43,6 @@ El blueprint describe un monorepo (`backend/`, `frontend/`, `infra/`, `notificat
 | [`021-migration-coexistence`](./021-migration-coexistence/spec.md) | 0–4 | Migración PHP y cortes |
 | [`022-endpoint-idempotency`](./022-endpoint-idempotency/spec.md) | 1 | Idempotencia transversal |
 | [`023-nfr-and-validation`](./023-nfr-and-validation/spec.md) | 0–1 | NFR + validación 17025 7.11 |
+| [`024-local-floci`](./024-local-floci/spec.md) | 0 | Emulador AWS local (Floci) |
 
 Las decisiones de la sección 17 del blueprint quedan como pendientes dentro de la spec que las usa. No se inventan respuestas del cuestionario.
