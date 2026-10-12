@@ -48,4 +48,6 @@ El blueprint describe un monorepo (`backend/`, `frontend/`, `infra/`, `notificat
 | [`026-local-compose-stack`](./026-local-compose-stack/spec.md) | 0 | Compose local MySQL + Floci |
 | [`027-shared-mailbox-email`](./027-shared-mailbox-email/spec.md) | 1 | Buzón operativo compartido (COM inbound + docs) |
 
+Cobertura MVP (todos los repos): [`docs/mvp-spec-coverage.md`](../docs/mvp-spec-coverage.md).
+
 Las decisiones de la sección 17 del blueprint quedan como pendientes dentro de la spec que las usa. No se inventan respuestas del cuestionario.

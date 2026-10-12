@@ -80,15 +80,20 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 | Clientes + cotización | Ausente | 1 | `005` |
 | Catálogo mínimo | Ausente | 1 | `006` |
 | Ingreso muestras | Ausente | 1 | `007` |
-| Inspección | Ausente | 1–2 | `019` |
-| Vista completa orden | Ausente | 1 | `018` |
+| Inspección | Ausente (código) | 1–2 | `019` + front `014-sample-inspection-ui` |
+| Vista completa orden | Ausente | 1 | `018` + front `011` |
+| Firmantes (config) | Ausente | 1 | `017` + front `013-signers-ui` |
 | COM + correo | Ausente | 1 | `008` + notif `002`/`006` + `027` (buzón in/out) |
-| Aprobaciones enlace+OTP | Ausente | 1 | `009` |
+| Aprobaciones enlace+OTP | Ausente | 1 | `009` + front `007` |
 | Archivos / PDF | Ausente | 1 | `010` |
 | Outbox / workers | Ausente | 1 | `011` |
 | Idempotencia | Ausente | 1 | `022` |
 | Listas pendientes MVP | Ausente | 1 | `016` + front `010` |
 | Portal público | Ausente | 1 | front `007` |
+| Recepción UI | Ausente | 1 | front `005` (responsive; PWA post-MVP) |
+| IdM Keycloak | Ausente | 1 | idm `001`/`002` |
+| Notifications SES/Teams/OTP | Ausente | 1 | notif `001`–`006` |
+| Infra (definición) | Inventario presente; apply diferido | 0–1 | iac `004` + `001`/`002`; tf-modules `001` |
 | Migración / convivencia | Ausente — **paralela al MVP**; detalle ETL bloqueado a inspección PHP + DB montada + metrología | 0–4 | `021` |
 | NFR / validación 17025 | Ausente (doc) | 0–1 | `023` |
 | Vigilancia normas + IA catálogo | Ausente | 2 | `006`/`014` |
@@ -98,6 +103,8 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 | Contramuestras | Ausente | 4 | `020` |
 | Analítica completa / KPIs | Ausente | 2–5 | follow-ups |
 | Evoluciones (insumos, QC, lago) | Fuera 10 meses | post | blueprint §16 |
+
+**Matriz cross-repo:** [`docs/mvp-spec-coverage.md`](../../docs/mvp-spec-coverage.md).
 
 **Regla:** inventar un dominio fuera de los siete, o mover reglas de negocio a `labsmyg-notifications`, **falla** el Product Conflict Check hasta enmendar la constitution (MAJOR).
 
