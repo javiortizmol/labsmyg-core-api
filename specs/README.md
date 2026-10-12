@@ -44,5 +44,6 @@ El blueprint describe un monorepo (`backend/`, `frontend/`, `infra/`, `notificat
 | [`022-endpoint-idempotency`](./022-endpoint-idempotency/spec.md) | 1 | Idempotencia transversal |
 | [`023-nfr-and-validation`](./023-nfr-and-validation/spec.md) | 0–1 | NFR + validación 17025 7.11 |
 | [`024-local-floci`](./024-local-floci/spec.md) | 0 | Emulador AWS local (Floci) |
+| [`025-domain-er-model`](./025-domain-er-model/spec.md) | 0 | ER preliminar por dominio → [`docs/domain-er-model.md`](../docs/domain-er-model.md) |
 
 Las decisiones de la sección 17 del blueprint quedan como pendientes dentro de la spec que las usa. No se inventan respuestas del cuestionario.
