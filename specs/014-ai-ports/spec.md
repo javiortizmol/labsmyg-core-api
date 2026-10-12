@@ -19,7 +19,14 @@ Ninguna salida de IA aprueba, firma ni envía sola. Todo queda marcado como prop
 
 ### User Story 3 - IA primero, manual si falla (Priority: P1)
 
-Los flujos asistidos **se inician por IA** (camino feliz / aceleración). Si la IA falla, expira, no está disponible, devuelve baja confianza o el usuario rechaza la propuesta, el mismo proceso **continúa por la ruta manual** (formularios, confirmaciones, cargas) sin esperar al agente ni quedar bloqueado. La IA no es un hard gate; el manual es fallback obligatorio (y puede elegirse de entrada cuando el producto permita omitir IA).
+Solo en flujos donde el blueprint o la spec de feature **marcan asistencia IA**
+(no en todos los procesos). Esos flujos asistidos **se inician por IA** (camino
+feliz / aceleración). Si la IA falla, expira, no está disponible, devuelve baja
+confianza o el usuario rechaza la propuesta, el mismo proceso **continúa por la
+ruta manual** (formularios, confirmaciones, cargas) sin esperar al agente ni
+quedar bloqueado. La IA no es un hard gate; el manual es fallback obligatorio
+(y puede elegirse de entrada cuando el producto permita omitir IA). Flujos
+solo manuales no tienen puerta IA ni obligación de intentar IA primero.
 
 **Independent Test**: Simular timeout o error del puerto de texto/documento en un flujo con asistencia IA; verificar que la transición de dominio sigue disponible vía API/UI manual.
 
@@ -38,7 +45,7 @@ Los flujos asistidos **se inician por IA** (camino feliz / aceleración). Si la 
 - **FR-005**: Auditoría de cada uso (entrada, salida, modelo, versión, quien aprobó).
 - **FR-006**: Extracción Excel de resultados NO es IA (mapeo fijo).
 - **FR-007**: Asistente cliente solo datos del sistema del contacto verificado; sin resultados ni opiniones técnicas.
-- **FR-008**: Flujos asistidos MUST ser **AI-first**: donde haya asistencia, se inicia por IA; ningún flujo exige éxito de IA para avanzar. Cada capacidad asistida MUST exponer equivalente manual en la API y UI del dominio dueño (formularios, confirmaciones, cargas); skip/upfront manual cuando el producto lo permita.
+- **FR-008**: **AI-first** aplica solo donde blueprint/spec define asistencia IA; los demás casos de uso no tienen gate IA. En capacidades asistidas: se inicia por IA; ningún flujo exige éxito de IA para avanzar. Cada capacidad asistida MUST exponer equivalente manual en la API y UI del dominio dueño (formularios, confirmaciones, cargas); skip/upfront manual cuando el producto lo permita. MUST NOT añadir pasos IA a flujos deterministas/manuales sin enmienda de spec.
 - **FR-009**: Fallos, timeouts, indisponibilidad del proveedor, rechazo del usuario y propuestas de baja confianza MUST continuar por la **ruta manual obligatoria** (sin estados bloqueados ni espera obligatoria de workers/agentes).
 - **FR-010**: Jobs asíncronos que invocan IA MUST NOT ser la única vía a una transición de estado válida; errores de job MUST liberar el flujo manual documentado en el caso de uso (mismo resultado que vía IA exitosa).
 
