@@ -4,13 +4,35 @@
 
 ## Summary
 
-Documentar assessment, scripts de ETL idempotentes, y criterios de corte. No microservicio de migración permanente.
+Parallel track to MVP. **No ETL / no invented source mappings** until inspection of
+(1) PHP code, (2) current mounted DB, (3) metrology legacy. Then: assessment
+docs, idempotent load scripts, cutover criteria. No permanent migration microservice.
+
+## Constitution Check
+
+| Gate | Status | Notes |
+|------|--------|-------|
+| No 8th domain | Pass | tools/scripts + jobs under existing domains |
+| Speckit | Pass | Spec updated; build gated |
+| Ownership | Pass | core-api owns runbooks; IdM users; iac only if sync infra |
 
 ## Product Conflict Check
 
-| Check | Result | Evidence |
-|---|---|---|
-| No dominio migration | Pass | scripts + jobs |
-| Piloto | Pass | Pending gerencia |
+| Conflict area | Check | Status | Notes / resolution |
+|---------------|-------|--------|--------------------|
+| Constitution | No migration domain | Pass | |
+| Vocabulary | English script ids | Pass | |
+| Ownership | core-api scripts | Pass | |
+| Cross-feature | MVP specs unblocked | Pass | FR-006: parallel; does not block MVP cut |
+| Metrology | F4 after inspection | Pass | Not forced into MVP loads |
+| Sibling | idm users F1 after diagnosis | Pass | |
+| Quality / TDD | Scripts later with tests | Pass | Gate before code |
+| Breaking | N/A until cutover | Pass | |
 
-**Unresolved conflicts**: none.
+**Related specs reviewed**: `015`, `005`–`007`, `012`, idm `002`
+
+**Unresolved conflicts**: none (work **blocked on access**, not on product conflict)
+
+## Blockers (not conflicts)
+
+- Read access: PHP codebase, mounted DB, metrology data/systems

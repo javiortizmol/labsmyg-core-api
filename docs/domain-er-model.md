@@ -2,7 +2,7 @@
 
 **Status**: Preliminary (fase 0). Closes with questionnaire + diagnosis.  
 **Source**: Blueprint § modelo de datos · constitution Product I · `specs/025-domain-er-model`.  
-**DB**: MySQL/MariaDB. Table/column names in **English**.  
+**DB**: MySQL. Table/column names in **English**.  
 **Legend**: **MVP** = fase 1 · **F4** = fase 4 · **TBD** = open questionnaire / fase 0.
 
 ## Principles
@@ -230,6 +230,7 @@ erDiagram
     datetime received_at
     string carrier
     string tracking_number
+    string sender_text "from guide or manual"
     uuid order_id FK "nullable until resolved"
   }
   SAMPLE {
@@ -261,7 +262,11 @@ erDiagram
   }
 ```
 
-Reception package photos → `documents` with `reception_id`. Sample photos → `sample_id`. `order_id` filled when resolved (object key unchanged).
+Reception package photos → `documents` with `reception_id`. Guide / courier-app
+screen captures are also `document` rows on the reception (kinds e.g.
+`shipping_guide`, `courier_app_capture`). Sample photos → `sample_id`.
+`order_id` filled when resolved (object key unchanged). Guide field extract is
+a proposal via document-read port — not web search.
 
 ---
 
@@ -357,6 +362,13 @@ erDiagram
 ```
 
 Outbound **send** is a command to `labsmyg-notifications` (SQS), not owned here.
+
+Inbound **email** (shared operational mailbox): SES receipt + MIME parse live in
+`labsmyg-notifications` (`006-email-inbound-ses`). This domain consumes
+`email.message.received`, creates `communication` with `direction=inbound`, and
+registers attachments as `document` (`010`). Same mailbox address is the
+outbound business `From` (notif `002`); OTP may use `noreply@` (`005`).
+Product decision: `027-shared-mailbox-email`.
 
 ---
 

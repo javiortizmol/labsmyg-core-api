@@ -1,0 +1,60 @@
+# Local stack for labsmyg-core-api.
+# Default: MySQL (labsmyg + labsmyg_audit). Optional: Floci AWS emulator.
+#
+#   make up                 # MySQL
+#   make up-aws             # MySQL + Floci
+#   make floci-up           # Floci only (profile aws-emulator)
+#
+# API container deferred until FastAPI health (`001`) exists.
+# Upstream Floci: https://github.com/floci-io/floci
+
+services:
+  mysql:
+    image: mysql:8.4
+    ports:
+      # Default 3307 avoids clashing with a host MySQL on 3306.
+      - "${MYSQL_HOST_PORT:-3307}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-labsmyg-root-local}
+      MYSQL_DATABASE: labsmyg
+      MYSQL_USER: ${MYSQL_USER:-labsmyg}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-labsmyg-local}
+    volumes:
+      - labsmyg_mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+  floci:
+    image: floci/floci:latest
+    profiles: ["aws-emulator"]
+    ports:
+      # Default 4566 (same as Mandado). If that port is taken, e.g.:
+      # FLOCI_HOST_PORT=4567 make floci-up
+      - "${FLOCI_HOST_PORT:-4566}:4566"
+    environment:
+      AWS_DEFAULT_REGION: ${AWS_REGION:-us-east-1}
+      FLOCI_HOSTNAME: floci
+      FLOCI_STORAGE_MODE: ${FLOCI_STORAGE_MODE:-hybrid}
+      FLOCI_BASE_URL: http://localhost:${FLOCI_HOST_PORT:-4566}
+    volumes:
+      - labsmyg_api_floci:/var/lib/floci
+      # Docker-backed services (Lambda, RDS, …) and Floci UI sidecar
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  labsmyg_mysql_data:
+  labsmyg_api_floci:

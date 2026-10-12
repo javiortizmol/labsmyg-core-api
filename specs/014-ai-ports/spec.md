@@ -51,6 +51,8 @@ solo manuales no tienen puerta IA ni obligación de intentar IA primero.
 
 ## Related
 
-006/007/008 fases 2–3 · constitution de producto · notificaciones push “listo”  
+`007` recepción: lectura de **foto/PDF de guía** y **foto de app de domicilio**
+(propuesta de campos; no búsqueda web/Places). `006`/`008` fases 2–3 ·
+constitution · notificaciones push “listo”  
 Agent definitions / prompts / evals / MCP contracts → sibling repo `labsmyg-agents`
 (ports and adapters stay here).

@@ -34,13 +34,13 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 | 3.4 | Muestras | Specs | `007`, `019`, `020` (contramuestras fase 4) |
 | 3.5 | Laboratorio | Specs | `012` (fase 4) |
 | 3.6 | Informes y entrega | Specs | `013` (+ preliminares en spec) |
-| 3.7 | Comunicaciones | Specs | `008` + `notifications` 001–005 |
+| 3.7 | Comunicaciones | Specs | `008` + `027` + `notifications` 001–006 (buzón in/out) |
 | 3 Analítica | Listas MVP / tableros | Specs | `016` + front `010`; tableros 2/4/5 después |
 | 4 | Flujo 12 pasos | Mapa E2E | `023` + specs por paso |
 | 5 | Modelo de datos | ER por dominio + glosario | `025` · [`docs/domain-er-model.md`](../../docs/domain-er-model.md) · `docs/domain-glossary.md` |
 | 6 | Arquitectura / stack | Constitution **II** + plans | `001`, `011`, `010`, `014` |
 | 7 | Lineamientos / monorepo→repos | READMEs specs + constitution | multi-repo map |
-| 8 | AWS / operación | Specs | `iac` 001–002, `tf-modules` 001 |
+| 8 | AWS / operación | Specs | `iac` 001–002 + inventario definición `004` → `labsmyg-iac/docs/platform-config-inventory.md`; `tf-modules` 001 |
 | 9 | Integraciones | Specs + pending §17 | ports en API; adapters por fase |
 | 10 | IA | Specs | `014` |
 | 11 | Seguridad / permisos / auditoría | Specs + constitution Identity | `003`, `004`, `009`, `idm` |
@@ -57,10 +57,10 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 |---|---|---|
 | `mandado-api` | `labsmyg-core-api` | 7 dominios LIMS vs marketplace |
 | `mandado-frontend` + `mandado-backoffice` | `labsmyg-core-front` | App interna + portal en un repo, dos deploys |
-| `mandado-landing` / `mandado-mobile` | — | PWA recepción; sin landing/móvil nativo en blueprint |
+| `mandado-landing` / `mandado-mobile` | — | Recepción **responsive** en front (`005`); PWA post-MVP; sin app nativa |
 | `mandado-idm` | `labsmyg-idm` | Realms `myg` / `cloud` |
 | (envío en API o lateral) | `labsmyg-notifications` | Servicio de envío explícito del blueprint |
-| `mandado-infrastructure` | `labsmyg-iac` | MySQL/MariaDB, no Postgres |
+| `mandado-infrastructure` | `labsmyg-iac` | MySQL (no Postgres); local Compose `026` |
 | `mandado-tf-modules` | `labsmyg-tf-modules` | Mismos patrones de módulo |
 | `mandado-github-templates` | `labsmyg-pipe-templates` | Quality + deploy OIDC |
 | `mandado-mocks` | — | No aplica aún |
@@ -82,17 +82,17 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 | Ingreso muestras | Ausente | 1 | `007` |
 | Inspección | Ausente | 1–2 | `019` |
 | Vista completa orden | Ausente | 1 | `018` |
-| COM + correo | Ausente | 1 | `008` + notif |
+| COM + correo | Ausente | 1 | `008` + notif `002`/`006` + `027` (buzón in/out) |
 | Aprobaciones enlace+OTP | Ausente | 1 | `009` |
 | Archivos / PDF | Ausente | 1 | `010` |
 | Outbox / workers | Ausente | 1 | `011` |
 | Idempotencia | Ausente | 1 | `022` |
 | Listas pendientes MVP | Ausente | 1 | `016` + front `010` |
 | Portal público | Ausente | 1 | front `007` |
-| Migración / convivencia | Ausente | 0–4 | `021` |
+| Migración / convivencia | Ausente — **paralela al MVP**; detalle ETL bloqueado a inspección PHP + DB montada + metrología | 0–4 | `021` |
 | NFR / validación 17025 | Ausente (doc) | 0–1 | `023` |
 | Vigilancia normas + IA catálogo | Ausente | 2 | `006`/`014` |
-| WhatsApp + asistente | Ausente | 3 | `008` + notif |
+| WhatsApp + asistente | Ausente (**post-MVP**) | 3 | `008` + notif — no secrets/wiring en MVP |
 | Laboratorio | Ausente | 4 | `012` |
 | Informes + firma + preliminares | Ausente | 4 | `013` |
 | Contramuestras | Ausente | 4 | `020` |
@@ -108,7 +108,7 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 | Fecha emisión informe (R3) | Calidad / legal |
 | Federación Entra vs AD | TI (sync M365?) |
 | Factura electrónica / firma digital | Contador / calidad |
-| Motor DB versión | Assessment fase 0 |
+| Motor DB versión | Assessment fase 0 (motor = MySQL; versión exacta TBD) |
 | Normas en curso / precios / no responde | Calidad / comercial |
 | Laboratorio piloto | Gerencia |
 | Clientes exterior | Gerencia / contador |

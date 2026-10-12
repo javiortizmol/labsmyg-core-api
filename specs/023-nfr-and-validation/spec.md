@@ -12,7 +12,7 @@
 
 ### User Story 1 - Objetivos NFR visibles (Priority: P2)
 
-El equipo conoce RPO 15m, RTO 4h, 99.5% laboral, p95 <2s, volumen ×5, PWA recepción — y los ajusta tras fase 0.
+El equipo conoce RPO 15m, RTO 4h, 99.5% laboral, p95 <2s, volumen ×5, recepción usable en tablet/celular (responsive MVP; PWA/offline post-MVP) — y los ajusta tras fase 0.
 
 ## Requirements
 

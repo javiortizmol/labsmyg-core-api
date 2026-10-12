@@ -1,5 +1,6 @@
 <!--
 Sync Impact Report
+- Version: 1.6.0 → 1.7.0 (MINOR: Product — shared mailbox; inbound email → COM here)
 - Version: 1.5.0 → 1.6.0 (MINOR: Product — scope AI-first to blueprint AI assists only)
 - Version: 1.4.0 → 1.5.0 (MINOR: Product — AI-first with mandatory manual fallback)
 - Version: 1.2.0 → 1.3.0 (MINOR: Ownership — labsmyg-agents sibling for agent defs)
@@ -18,7 +19,7 @@ Specs in `specs/` carry feature detail. Speckit is mandatory for every change.
 **Themes:** Product · Architecture & Data · Identity & Access · Quality ·
 Ownership · Governance
 
-**Version**: 1.6.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
+**Version**: 1.7.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
 
 **Product source**: [`docs/blueprint-plataforma-laboratorios-mg.md`](../../docs/blueprint-plataforma-laboratorios-mg.md)
 (Blueprint Laboratorios M&G, versión preliminar; se cierra al final de la fase 0).
@@ -43,14 +44,15 @@ repo without an explicit constitution amend.
 | 4 | Muestras | `app/domains/samples` | Orders, receptions (RCP), samples, sample lifecycle / sheet, transfers, retained samples |
 | 5 | Laboratorio | `app/domains/laboratory` | Planning, assignment, equipment/metrology, Excel templates, test execution results |
 | 6 | Informes y entrega | `app/domains/reports` | Report draft→sign→issue, QR, modified reports, delivery/payment ports, e-invoice ports |
-| 7 | Comunicaciones | `app/domains/communications` | COM registry, association to orders, **who/channel/template** decisions, outbound **commands** to notifications |
+| 7 | Comunicaciones | `app/domains/communications` | COM registry (inbound + outbound), association to orders, **who/channel/template** decisions, outbound **commands** to notifications, consume inbound email events |
 
 **Not a domain**
 
 - **Analytics** — read-only capability over domain data (MVP: basic pending lists).
   MUST NOT become `app/domains/analytics` with its own write model.
-- **`labsmyg-notifications`** — delivery mechanics only (email, WhatsApp, SMS,
-  Teams, push). MUST NOT decide recipients, business templates, or COM identity.
+- **`labsmyg-notifications`** — delivery **and email inbound receipt** mechanics
+  (SES send/receive parse → bus event). MUST NOT decide recipients, business
+  templates, or COM identity.
 - **Keycloak / `labsmyg-idm`** — credentials and realms. Business role
   assignments (site, laboratory, test type) live in platform/authorization here.
 
@@ -73,9 +75,11 @@ architecture test that one domain never imports another’s internals.
 4. **Customers signals “request registered”; Samples creates the order.** If a
    sample arrives without a request, Samples creates the order and asks Customers
    for the quote.
-5. **Communications decides; notifications sends.** Outbound customer notices
-   are a command to the notifications queue (not via the event bus). COM stays
-   in this monolith.
+5. **Communications decides; notifications delivers/receives the channel.**
+   Outbound customer notices are a command to the notifications queue (not via
+   the event bus). Inbound email is a received event from notifications; COM
+   stays in this monolith. Shared operational mailbox (same address in/out) is
+   channel config — see `027-shared-mailbox-email`.
 6. **State changes are commands**, not a bare PATCH of a `status` field.
    Invalid transitions → 409 (or documented conflict).
 7. **Logical delete / void only.** No physical delete of business rows from the
@@ -155,7 +159,8 @@ External systems (SES is **not** called from here — notifications is;
 S3, Bedrock, e-invoice, signing, payment gateways, Keycloak Admin beyond JWT)
 MUST use a **port + adapter**. Domain/use-case code depends only on the port.
 
-MySQL/MariaDB is the system of record (exact engine version: phase-0 pending).
+MySQL is the system of record (exact engine version: phase-0 pending; local
+Compose uses MySQL 8.4).
 EventBridge + SQS via outbox; not full event sourcing. State in DB; history in
 audit.
 
