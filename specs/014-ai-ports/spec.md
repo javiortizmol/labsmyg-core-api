@@ -38,9 +38,9 @@ solo manuales no tienen puerta IA ni obligación de intentar IA primero.
 
 ## Requirements
 
-- **FR-001**: Cuatro puertos hexagonales + adaptadores AWS en los 10 meses (Bedrock, Textract, Knowledge Bases, Guardrails).
+- **FR-001**: Cuatro puertos hexagonales **de dominio** (UI/use-cases) + adaptadores AWS en los 10 meses (Bedrock, Textract, Knowledge Bases, Guardrails) para esas vías.
 - **FR-002**: Config por tarea (modelo pinneado a versión exacta + alterno) desde backoffice.
-- **FR-003**: Herramientas de agentes vía MCP con permisos del conversador.
+- **FR-003**: Herramientas de agentes vía MCP con permisos del conversador (este API las sirve a `agents-runtime`).
 - **FR-004**: ChromaDB en dev/pruebas; KB Bedrock en AWS.
 - **FR-005**: Auditoría de cada uso (entrada, salida, modelo, versión, quien aprobó).
 - **FR-006**: Extracción Excel de resultados NO es IA (mapeo fijo).
@@ -48,11 +48,12 @@ solo manuales no tienen puerta IA ni obligación de intentar IA primero.
 - **FR-008**: **AI-first** aplica solo donde blueprint/spec define asistencia IA; los demás casos de uso no tienen gate IA. En capacidades asistidas: se inicia por IA; ningún flujo exige éxito de IA para avanzar. Cada capacidad asistida MUST exponer equivalente manual en la API y UI del dominio dueño (formularios, confirmaciones, cargas); skip/upfront manual cuando el producto lo permita. MUST NOT añadir pasos IA a flujos deterministas/manuales sin enmienda de spec.
 - **FR-009**: Fallos, timeouts, indisponibilidad del proveedor, rechazo del usuario y propuestas de baja confianza MUST continuar por la **ruta manual obligatoria** (sin estados bloqueados ni espera obligatoria de workers/agentes).
 - **FR-010**: Jobs asíncronos que invocan IA MUST NOT ser la única vía a una transición de estado válida; errores de job MUST liberar el flujo manual documentado en el caso de uso (mismo resultado que vía IA exitosa).
+- **FR-011**: Orquestación de agentes en ECS **`agents-runtime`** (`labsmyg-agents` `003`). Este API encola `agent.task.requested` y consume `agent.task.proposed` / `failed`; MUST NOT tratar propuestas como estado de negocio sin confirmación humana.
+- **FR-012**: Bedrock no hospeda el proceso del agente (solo inferencia). Interim: jobs finos MAY usar `core-worker` + estos puertos hasta existir `agents-runtime`.
 
 ## Related
 
 `007` recepción: lectura de **foto/PDF de guía** y **foto de app de domicilio**
 (propuesta de campos; no búsqueda web/Places). `006`/`008` fases 2–3 ·
 constitution · notificaciones push “listo”  
-Agent definitions / prompts / evals / MCP contracts → sibling repo `labsmyg-agents`
-(ports and adapters stay here).
+Defs + **agents-runtime ECS** → `labsmyg-agents` (`001`, `003`).

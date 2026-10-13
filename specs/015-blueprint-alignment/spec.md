@@ -42,7 +42,7 @@ El equipo ve, por sección del blueprint y por capacidad, qué spec/repo la cubr
 | 7 | Lineamientos / monorepo→repos | READMEs specs + constitution | multi-repo map |
 | 8 | AWS / operación | Specs | `iac` 001–002 + inventario definición `004` → `labsmyg-iac/docs/platform-config-inventory.md`; `tf-modules` 001 |
 | 9 | Integraciones | Specs + pending §17 | ports en API; adapters por fase |
-| 10 | IA | Specs | `014` |
+| 10 | IA | Specs | api `014` (domain ports) + agents `003` (ECS runtime; Bedrock = models) |
 | 11 | Seguridad / permisos / auditoría | Specs + constitution Identity | `003`, `004`, `009`, `idm` |
 | 12 | NFR | Specs | `023` |
 | 13 | Migración | Specs | `021` |

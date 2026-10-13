@@ -1,5 +1,6 @@
 <!--
 Sync Impact Report
+- Version: 1.7.0 → 1.8.0 (MINOR: Ownership — agents-runtime ECS; Bedrock = model only)
 - Version: 1.6.0 → 1.7.0 (MINOR: Product — shared mailbox; inbound email → COM here)
 - Version: 1.5.0 → 1.6.0 (MINOR: Product — scope AI-first to blueprint AI assists only)
 - Version: 1.4.0 → 1.5.0 (MINOR: Product — AI-first with mandatory manual fallback)
@@ -19,7 +20,7 @@ Specs in `specs/` carry feature detail. Speckit is mandatory for every change.
 **Themes:** Product · Architecture & Data · Identity & Access · Quality ·
 Ownership · Governance
 
-**Version**: 1.7.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
+**Version**: 1.8.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
 
 **Product source**: [`docs/blueprint-plataforma-laboratorios-mg.md`](../../docs/blueprint-plataforma-laboratorios-mg.md)
 (Blueprint Laboratorios M&G, versión preliminar; se cierra al final de la fase 0).
@@ -236,8 +237,13 @@ live in `labsmyg-pipe-templates`. Shared AWS primitives live in
 `labsmyg-tf-modules` and are wired from `labsmyg-iac`. Identity configuration
 lives in `labsmyg-idm`. Outbound delivery mechanics live in
 `labsmyg-notifications`. Browser clients live in `labsmyg-core-front`.
-Domain AI **agent definitions** (prompts, evals, MCP contracts) live in
-`labsmyg-agents`; AI **ports and AWS adapters** stay in this API (`014-ai-ports`).
+Domain AI **agent definitions** (prompts, evals, MCP contracts) and the
+**agents-runtime** ECS service live in `labsmyg-agents` (`003-agents-runtime-ecs`).
+Amazon Bedrock supplies **models only** — agents do not execute inside Bedrock.
+This API owns **domain-facing AI ports** (`014-ai-ports`) used by UI/use-cases
+and consumes agent **proposals** for human confirmation. Business writes stay
+here. Model-provider adapters for the agent loop MAY live in agents-runtime;
+this API MUST NOT grant agents-runtime direct RDS access to business schemas.
 
 Cloud account layout, VPC, RDS, SES DNS, ECS wiring → **iac specs**, not here.
 Reusable `aws_*` modules → **tf-modules**, not duplicated here.

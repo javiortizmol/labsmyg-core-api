@@ -100,7 +100,8 @@
 
 | Area | Specs | MVP? |
 |------|-------|------|
-| Bootstrap / skills | `001` `002` | Thin for MVP — runtime ports in api `014`; rich agents F2+ |
+| Bootstrap / skills | `001` `002` | Defs OK |
+| **ECS `agents-runtime`** | `003` | Contracts now; deploy F1.5/F2 — Bedrock = model only; interim AI on `core-worker` + api `014` |
 
 ---
 
