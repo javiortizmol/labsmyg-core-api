@@ -26,7 +26,9 @@ Metadatos de archivo referencian reception/sample/order/customer; keys S3 establ
 ## Requirements
 
 - **FR-001**: Documento canónico `docs/domain-er-model.md` alineado a los 7 dominios.
-- **FR-002**: Transversales: `audit`, `documents`, `approvals`, `outbox` — no son dominio.
+- **FR-002**: Transversales: `audit`, `documents`, `approvals`, `outbox`,
+  `inbox` — no son dominio. Platform ER incluye `laboratory_type` +
+  `laboratory_site` (api `002`).
 - **FR-003**: Laboratory sin columnas de identidad de cliente.
 - **FR-004**: Catalog versions frozen en quotes/tests/reports (FK a version, no a “current”).
 - **FR-005**: TBD del cuestionario listados (retención auditoría, etc.); no inventar respuestas.

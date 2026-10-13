@@ -24,6 +24,8 @@ include `## Product Conflict Check` (template in `.specify/templates/plan-templa
 - Sibling repos stay coherent: `labsmyg-core-api`, `labsmyg-core-front`, `labsmyg-idm`, `labsmyg-notifications`, `labsmyg-agents`, `labsmyg-iac`, `labsmyg-tf-modules`, `labsmyg-pipe-templates`
 - Quality and TDD: coded behavior needs regression tests; do not force a green suite by weakening assertions
 - Spec ↔ code: material changes update `specs/` when implementation drifts
+- Brand / look-and-feel: UI chrome follows `labsmyg-core-api/docs/brand/look-and-feel.md` (spec `028`); no Mandado gold/ink as Labs MYG primaries
+- Delivery / idempotency (**transversal**): writes/events follow `011` / `docs/event-delivery-reliability.md` (outbox + inbox, at-least-once, no dual-write). HTTP keys (`022`) do not replace that. N/A only if the slice has no write and no message.
 - Breaking API or UX migrations are called out
 
 ## Fail policy

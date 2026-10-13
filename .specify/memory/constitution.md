@@ -1,5 +1,10 @@
 <!--
 Sync Impact Report
+- Version: 1.10.2 → 1.10.3 (PATCH: Code-shape limits by artifact type)
+- Version: 1.10.1 → 1.10.2 (PATCH: Code shape limits; AGENTS.md SDD entry)
+- Version: 1.10.0 → 1.10.1 (PATCH: Delivery/idempotency transversal to all generated solutions)
+- Version: 1.9.0 → 1.10.0 (MINOR: Architecture — at-least-once outbox/inbox; no lost committed writes)
+- Version: 1.8.0 → 1.9.0 (MINOR: Brand — look-and-feel SoT in docs/brand)
 - Version: 1.7.0 → 1.8.0 (MINOR: Ownership — agents-runtime ECS; Bedrock = model only)
 - Version: 1.6.0 → 1.7.0 (MINOR: Product — shared mailbox; inbound email → COM here)
 - Version: 1.5.0 → 1.6.0 (MINOR: Product — scope AI-first to blueprint AI assists only)
@@ -18,9 +23,9 @@ file only** — themes below are navigation, not separate constitutions.
 Specs in `specs/` carry feature detail. Speckit is mandatory for every change.
 
 **Themes:** Product · Architecture & Data · Identity & Access · Quality ·
-Ownership · Governance
+Ownership · Brand · Governance
 
-**Version**: 1.8.0 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
+**Version**: 1.10.3 | **Ratified**: 2026-10-12 | **Last Amended**: 2026-10-12
 
 **Product source**: [`docs/blueprint-plataforma-laboratorios-mg.md`](../../docs/blueprint-plataforma-laboratorios-mg.md)
 (Blueprint Laboratorios M&G, versión preliminar; se cierra al final de la fase 0).
@@ -58,8 +63,11 @@ repo without an explicit constitution amend.
   assignments (site, laboratory, test type) live in platform/authorization here.
 
 **Transversal (shared, not domains):** files/documents, approvals engine (link +
-OTP), AI ports, PDF generation helpers, domain events/outbox. They serve all
-domains; they MUST NOT own sample/order/customer aggregates.
+OTP), AI ports, PDF generation helpers, domain events/outbox/**inbox**, HTTP
+idempotency. They serve **every generated solution** (all seven domains and
+workers); they MUST NOT own sample/order/customer aggregates. A new feature
+MUST reuse these patterns — it MUST NOT invent a one-off bus publish or skip
+idempotency.
 
 Rationale: Blueprint §2 — small team, clear ownership, phaseable delivery,
 architecture test that one domain never imports another’s internals.
@@ -165,10 +173,23 @@ Compose uses MySQL 8.4).
 EventBridge + SQS via outbox; not full event sourcing. State in DB; history in
 audit.
 
+A **committed** business write MUST persist its domain event or outbound
+command in the **same transaction** (outbox). Publishers mark published only
+after broker ACK. Delivery is **at-least-once**; consumers MUST be
+idempotent (inbox unique on event id). MUST NOT dual-write (bus/SQS in the
+HTTP request). MUST NOT silently drop failed publishes (retry → DLQ + alarm).
+HTTP `Idempotency-Key` (`022`) does not replace outbox/inbox. Policy:
+`docs/event-delivery-reliability.md` and `specs/011-domain-events-workers`.
+These rules are **transversal**: every new spec/plan/generated flow that
+writes state or emits a message MUST apply them (Conflict Check row
+“Delivery / idempotency”).
+
 ### II-b. Options before locking the plan
 
 For new capabilities, specify/plan MUST surface options (owning domain, sync vs
-async, port vs in-process, idempotency) and record the choice in `plan.md`.
+async, port vs in-process) and record the choice in `plan.md`.
+**Idempotency and at-least-once delivery are not optional** when the flow
+writes or publishes — only *how* (HTTP key, outbox, inbox) is chosen.
 Options MUST stay inside this constitution (seven domains, monolith, logical
 delete, AI human-in-the-loop).
 
@@ -216,6 +237,14 @@ Docs-only changes may skip tests.
 Architecture MUST include an automated check that one domain package does not
 import another domain’s `infrastructure` (or equivalent internals).
 
+### IV-b. Code shape (transversal spirit, limits by type)
+
+Small units and one reason to change apply to **every** generated solution.
+**Numeric limits depend on artifact type** (Python ≠ React page ≠ prompt ≠
+HCL). Canonical table: `docs/code-shape.md`. API/Python: prefer ≤350 / fn ≤50.
+Do not force those numbers on front pages or agent prompts. Do not delete
+tests to hit a number.
+
 ### V. Quality gates
 
 | Command | When |
@@ -247,6 +276,19 @@ this API MUST NOT grant agents-runtime direct RDS access to business schemas.
 
 Cloud account layout, VPC, RDS, SES DNS, ECS wiring → **iac specs**, not here.
 Reusable `aws_*` modules → **tf-modules**, not duplicated here.
+
+---
+
+
+## Brand
+
+### VI-b. Look & feel SoT
+
+Cross-app visual language (palette, lockups, CTAs, contrast) lives in
+[`docs/brand/look-and-feel.md`](../../docs/brand/look-and-feel.md) (spec
+`028-brand-look-and-feel`). This repo owns the git binaries under `docs/brand/`.
+Sibling user-facing apps MUST follow the kit. Do not invent a second primary
+palette or reuse Mandado gold/ink as Labs MYG brand tokens.
 
 ---
 

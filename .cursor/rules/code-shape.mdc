@@ -1,0 +1,13 @@
+---
+description: Code shape — transversal spirit; numbers by artifact type
+alwaysApply: true
+---
+
+# Code shape
+
+**Spirit:** small, one reason to change. **Limits:** by type —
+`docs/code-shape.md` (SoT).
+
+This repo (Python `app/` / workers): files ≤350, functions ≤50, split by 500.
+MUST NOT apply these numbers blindly to front screens or agent prompts.
+MUST NOT delete tests to hit a count.

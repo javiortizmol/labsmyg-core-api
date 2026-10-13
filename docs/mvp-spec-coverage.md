@@ -23,7 +23,7 @@
 | Area | Specs | MVP? | Notes |
 |------|-------|------|-------|
 | Bootstrap / JWT / OpenAPI | `001` | Build | |
-| Platform org / numbering / settings | `002` | Build | |
+| Platform org / numbering / settings | `002` | Build | M&G multi-**tipo** de lab + CRUD instancias (dato, no hardcode) |
 | Audit | `003` | Build | |
 | Authorization | `004` | Build | |
 | Customers / quotes | `005` | Build | |
@@ -51,7 +51,7 @@
 | Area | Specs | MVP? | Notes |
 |------|-------|------|-------|
 | Bootstrap / OIDC / responsive shell | `001` | Build | |
-| Admin org / users / roles | `002` | Build | |
+| Admin org / users / roles / lab types | `002` | Build | CRUD tipos + laboratorios |
 | Customers / quotes UI | `003` | Build | |
 | Catalog UI | `004` | Build | |
 | Reception UI (responsive) | `005` | Build | PWA post-MVP |

@@ -19,7 +19,9 @@ Creaciones críticas (órdenes, aceptaciones, pagos, envíos COM) aceptan `Idemp
 - **FR-001**: Soporte transversal en shared para claves de idempotencia.
 - **FR-002**: Obligatorio en aceptaciones (009), altas de orden/muestra críticas, comandos de envío.
 - **FR-003**: Respuesta replay del primer resultado exitoso.
+- **FR-004**: Esta clave HTTP **no** sustituye outbox/inbox de eventos
+  (`011` / `docs/event-delivery-reliability.md`).
 
 ## Related
 
-002 Mandado pattern · 007 · 009 · 008
+002 Mandado pattern · 007 · 009 · 008 · 011

@@ -3,6 +3,9 @@
 Spec-driven development (Spec Kit + Cursor skills), quality gates, and a
 pre-push hook. Non-negotiables live in `.specify/memory/constitution.md`.
 
+**Cursor / SDD:** [`AGENTS.md`](AGENTS.md) — agents load that file plus
+`.cursor/rules/speckit-harness.mdc` (always on). No `/speckit-*` required.
+
 ## Quality
 
 ```bash

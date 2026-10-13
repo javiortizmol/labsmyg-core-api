@@ -44,7 +44,9 @@ Recepción registra paquete con datos de guía: (a) foto/PDF de guía, (b) foto 
 - **FR-001**: Orden al registrar solicitud o al recibir sin solicitud; número único global.
 - **FR-002**: Máquina de estados; transiciones por comando (no PATCH de status). Estados: solicitada, cotizada, esperando al cliente, aceptada, parcialmente recibida, en laboratorio, informada, cerrada, no concretada.
 - **FR-003**: Recepción (RCP) vinculable a varias órdenes; orden en varios paquetes.
-- **FR-004**: Código M&G al ingresar + hoja de vida.
+- **FR-004**: Código M&G al ingresar + hoja de vida. El valor puede llegar
+  escrito, desde **cámara del navegador** (celular/tablet/webcam) o lector
+  teclado; la API no distingue el origen (front `005` / FR-002c).
 - **FR-005**: Fotos vía puerto de archivos (muestra, paquete, **guía**, **captura app domicilio**).
 - **FR-006**: Por resolver bloquea paso a laboratorio.
 - **FR-007**: Parcialmente recibida si lo recibido no cubre lo esperado.

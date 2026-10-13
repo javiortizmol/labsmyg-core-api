@@ -1,0 +1,32 @@
+---
+description: Labs MYG brand kit — palette, lockups, CTAs (transversal SoT)
+alwaysApply: true
+---
+
+# Brand look & feel
+
+Canonical kit: `docs/brand/look-and-feel.md` (spec `028-brand-look-and-feel`).
+
+## Locked tokens (do not invent alternatives)
+
+| Token | Hex |
+|-------|-----|
+| brand | `#017EA0` |
+| brand-bright | `#00CCEC` |
+| brand-deep | `#005080` |
+| navy | `#012C47` |
+| ink | `#181B31` |
+| mist | `#F5F7FA` |
+| paper | `#FFFFFF` |
+
+## Lockups
+
+- Dark: `docs/brand/logo-myg-hq-transparent.png`
+- Light: `docs/brand/logo-myg-on-light-transparent.png`
+- Compact: `docs/brand/logo_myg_150x110.png`
+
+## Forbidden
+
+- Mandado gold/ink as Labs MYG primaries
+- Purple SaaS defaults / cream+serif newspaper look
+- Reconstructing the measuring-tape logo from unrelated artwork

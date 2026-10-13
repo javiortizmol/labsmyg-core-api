@@ -44,7 +44,9 @@ Owns org structure, sequences, settings, signer config. **Consumes** audit; does
 ```mermaid
 erDiagram
   COMPANY ||--|{ SITE : has
-  SITE ||--o{ LABORATORY : hosts
+  SITE ||--o{ LABORATORY_SITE : hosts
+  LABORATORY ||--o{ LABORATORY_SITE : operates_in
+  LABORATORY_TYPE ||--o{ LABORATORY : classifies
   SEQUENCE {
     uuid id PK
     string kind "quote|order|sample|rcp|com|report|test"
@@ -63,11 +65,22 @@ erDiagram
     string name
     string timezone
   }
+  LABORATORY_TYPE {
+    uuid id PK
+    string code
+    string name
+    bool active
+  }
   LABORATORY {
     uuid id PK
-    uuid site_id FK
+    uuid laboratory_type_id FK
     string name
     string code
+    bool active
+  }
+  LABORATORY_SITE {
+    uuid laboratory_id FK
+    uuid site_id FK
   }
   APP_SETTING {
     uuid id PK
@@ -451,12 +464,23 @@ erDiagram
     uuid evidence_document_id "nullable"
   }
   OUTBOX_MESSAGE {
-    uuid id PK
+    uuid id PK "event_id"
     string event_type
+    string aggregate_type
+    uuid aggregate_id
+    int aggregate_version
     json payload
     string status "pending|published|failed"
+    int attempts
+    datetime next_retry
+    string last_error
     datetime created_at
     datetime published_at
+  }
+  INBOX_MESSAGE {
+    string consumer_id
+    uuid event_id
+    datetime processed_at
   }
 ```
 
@@ -466,14 +490,14 @@ erDiagram
 
 | Domain | MVP tables |
 |--------|------------|
-| Platform | company, site, laboratory, sequence, app_setting, signer_config, authz assignments |
+| Platform | company, site, laboratory_type, laboratory, laboratory_site, sequence, app_setting, signer_config, authz assignments |
 | Customers | customer, customer_site, contact, customer_document, request, quote, quote_line, customer_approval |
 | Catalog | standard, standard_version, catalog_test, standard_item, price |
 | Samples | order, reception, sample, sample_photo, sample_inspection |
 | Laboratory | *(frontier only / stubs)* |
 | Reports | *(frontier only / stubs)* |
 | Communications | communication, com_association, com_template(+version) |
-| Transversal | audit.audit_event, document, approval_challenge, outbox_message |
+| Transversal | audit.audit_event, document, approval_challenge, outbox_message, inbox_message |
 
 ---
 

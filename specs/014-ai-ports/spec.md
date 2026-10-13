@@ -3,9 +3,42 @@
 **Feature Branch**: `014-ai-ports`
 **Created**: 2026-10-12
 **Status**: Draft — no construir hasta Aprobada (blueprint §15)
-**Fase**: Fase 2+; puertos listos desde fase 1
-**Fuente**: Blueprint «Plataforma de gestión de Laboratorios M&G», octubre 2026, versión preliminar. Se cierra al final de la fase 0.
+**Fase**: Puertos + stubs desde fase 1; adaptadores AWS en los 10 meses; **segundo proveedor (p. ej. Vertex AI)** vía mismo puerto cuando se apruebe (post–AWS o failover)
+**Fuente**: Blueprint §10 (hexagonal + cadena de respaldo multi-proveedor); agents `003`.
 **Idioma**: spec funcional en español. Código, API, tablas, eventos y docs técnicas en inglés.
+
+## Hexagonal model (provider-agnostic)
+
+```
+Use-cases / UI / agents-runtime
+        │
+        ▼
+   Ports (this API)                    ← no AWS/GCP types in domain code
+   • TextReasoningPort
+   • DocumentReadPort
+   • SemanticSearchPort
+   • SafetyFilterPort
+        │
+        ├── Adapter AWS (primary, 10 months): Bedrock Converse, Textract,
+        │     Bedrock Knowledge Bases, Bedrock Guardrails
+        │
+        └── Adapter Google (optional later / failover): Vertex AI (Gemini),
+              Document AI, Vertex AI Search (or equivalent), safety via
+              port capabilities + own checks
+```
+
+Agents and domain code **MUST NOT** import Bedrock/Vertex SDKs. Switching
+provider = new adapter + config + eval suite, not rewriting agents
+(`labsmyg-agents`).
+
+| Port | AWS adapter (primary) | Google adapter (planned) |
+|------|------------------------|---------------------------|
+| Text / reasoning | Bedrock Converse | Vertex AI Gemini (Generative AI) |
+| Document read | Textract (and/or Bedrock multimodal) | Document AI |
+| Semantic search | Bedrock Knowledge Bases | Vertex AI Search / reindex |
+| Safety filters | Bedrock Guardrails (+ own rules) | Port-level + own rules (provider-specific if needed) |
+
+Local/dev: ChromaDB for semantic search tests; stubs for other ports.
 
 ## User Scenarios & Testing
 
@@ -13,47 +46,47 @@
 
 Cuatro puertos: texto/razonamiento, lectura de documentos, búsqueda semántica, filtros de seguridad. Agentes no importan SDKs de proveedor.
 
+**Independent Test**: Architecture test fails if `agents` / domain packages import `boto3` Bedrock or `google.cloud.aiplatform` / Vertex client libs.
+
 ### User Story 2 - La IA propone, persona decide (Priority: P1)
 
 Ninguna salida de IA aprueba, firma ni envía sola. Todo queda marcado como propuesta hasta confirmación humana; uso auditado.
 
 ### User Story 3 - IA primero, manual si falla (Priority: P1)
 
-Solo en flujos donde el blueprint o la spec de feature **marcan asistencia IA**
-(no en todos los procesos). Esos flujos asistidos **se inician por IA** (camino
-feliz / aceleración). Si la IA falla, expira, no está disponible, devuelve baja
-confianza o el usuario rechaza la propuesta, el mismo proceso **continúa por la
-ruta manual** (formularios, confirmaciones, cargas) sin esperar al agente ni
-quedar bloqueado. La IA no es un hard gate; el manual es fallback obligatorio
-(y puede elegirse de entrada cuando el producto permita omitir IA). Flujos
-solo manuales no tienen puerta IA ni obligación de intentar IA primero.
+Solo en flujos donde el blueprint o la spec de feature **marcan asistencia IA**.
+Esos flujos **se inician por IA**; si falla / timeout / baja confianza / rechazo → **ruta manual** obligatoria. Sin hard gate.
 
-**Independent Test**: Simular timeout o error del puerto de texto/documento en un flujo con asistencia IA; verificar que la transición de dominio sigue disponible vía API/UI manual.
+**Independent Test**: Timeout del puerto → mismo outcome vía formulario manual.
 
-**Acceptance Scenarios**:
+### User Story 4 - Cadena de respaldo / segundo proveedor (Priority: P2)
 
-1. **Given** un flujo con extracción asistida por IA, **When** el puerto devuelve error o timeout, **Then** el usuario puede ingresar los mismos datos manualmente y confirmar sin depender de reintentos de IA.
-2. **Given** un job asíncrono de agente en curso, **When** el job falla o se agota el tiempo, **Then** el agregado no queda en un estado que solo la IA puede desbloquear; la máquina de estados admite la ruta manual equivalente.
-3. **Given** baja confianza en una propuesta de IA, **When** el usuario la rechaza o ignora, **Then** puede completar la acción editando campos a mano como si no hubiera usado IA.
+Por tarea se configura proveedor primario y opcional de respaldo (p. ej. AWS → Vertex). El puerto elige adaptador; capacidades no soportadas se degradan sin romper el contrato. Activar Vertex exige: adaptador + evals + revisión contrato datos / Ley 1581 + reindex semántico si aplica.
 
 ## Requirements
 
-- **FR-001**: Cuatro puertos hexagonales **de dominio** (UI/use-cases) + adaptadores AWS en los 10 meses (Bedrock, Textract, Knowledge Bases, Guardrails) para esas vías.
-- **FR-002**: Config por tarea (modelo pinneado a versión exacta + alterno) desde backoffice.
+- **FR-001**: Cuatro puertos hexagonales **de dominio** (UI/use-cases). Adaptadores **AWS** (Bedrock, Textract, Knowledge Bases, Guardrails) en los 10 meses.
+- **FR-001b**: Diseño MUST permitir adaptador **Google Vertex AI / Document AI / Vertex AI Search** detrás de los mismos puertos sin cambiar agentes ni use-cases. Implementación Vertex = slice aparte cuando se priorice (no bloquea MVP AWS).
+- **FR-002**: Config por tarea: proveedor, modelo pinneado a versión exacta, región, parámetros, **cadena de respaldo** (puede cruzar proveedores).
 - **FR-003**: Herramientas de agentes vía MCP con permisos del conversador (este API las sirve a `agents-runtime`).
-- **FR-004**: ChromaDB en dev/pruebas; KB Bedrock en AWS.
-- **FR-005**: Auditoría de cada uso (entrada, salida, modelo, versión, quien aprobó).
+- **FR-004**: ChromaDB en dev/pruebas; KB Bedrock en AWS; cambio de proveedor de búsqueda ⇒ reindex (vectores no son portables).
+- **FR-005**: Auditoría de cada uso (entrada, salida, **proveedor**, modelo, versión, quien aprobó).
 - **FR-006**: Extracción Excel de resultados NO es IA (mapeo fijo).
 - **FR-007**: Asistente cliente solo datos del sistema del contacto verificado; sin resultados ni opiniones técnicas.
-- **FR-008**: **AI-first** aplica solo donde blueprint/spec define asistencia IA; los demás casos de uso no tienen gate IA. En capacidades asistidas: se inicia por IA; ningún flujo exige éxito de IA para avanzar. Cada capacidad asistida MUST exponer equivalente manual en la API y UI del dominio dueño (formularios, confirmaciones, cargas); skip/upfront manual cuando el producto lo permita. MUST NOT añadir pasos IA a flujos deterministas/manuales sin enmienda de spec.
-- **FR-009**: Fallos, timeouts, indisponibilidad del proveedor, rechazo del usuario y propuestas de baja confianza MUST continuar por la **ruta manual obligatoria** (sin estados bloqueados ni espera obligatoria de workers/agentes).
-- **FR-010**: Jobs asíncronos que invocan IA MUST NOT ser la única vía a una transición de estado válida; errores de job MUST liberar el flujo manual documentado en el caso de uso (mismo resultado que vía IA exitosa).
-- **FR-011**: Orquestación de agentes en ECS **`agents-runtime`** (`labsmyg-agents` `003`). Este API encola `agent.task.requested` y consume `agent.task.proposed` / `failed`; MUST NOT tratar propuestas como estado de negocio sin confirmación humana.
-- **FR-012**: Bedrock no hospeda el proceso del agente (solo inferencia). Interim: jobs finos MAY usar `core-worker` + estos puertos hasta existir `agents-runtime`.
+- **FR-008**: **AI-first** solo donde blueprint/spec define asistencia IA; fallback/skip manual obligatorio.
+- **FR-009**: Fallos de cualquier proveedor → ruta manual; no estados bloqueados.
+- **FR-010**: Jobs async de IA MUST NOT ser la única vía a una transición válida.
+- **FR-011**: Orquestación de agentes en ECS **`agents-runtime`** (`labsmyg-agents` `003`). Este API encola `agent.task.requested` y consume `agent.task.proposed` / `failed`; sin auto-commit.
+- **FR-012**: Bedrock/Vertex **no** hospedan el proceso del agente (solo inferencia). Interim: `core-worker` + puertos hasta existir `agents-runtime`.
+- **FR-013**: Prueba de arquitectura automatizada: sin imports de SDK de proveedor en dominios / paquetes de agente consumidos desde defs.
+- **FR-014**: Credenciales multi-cloud federadas (sin access keys largas en git) cuando exista adaptador Vertex; iac documenta wiring.
+
+## Success Criteria
+
+- **SC-001**: Stub ports + AWS adapter path green under `make quality` when coded.
+- **SC-002**: Architecture test blocks provider SDK leaks into domain/agent code.
+- **SC-003**: Spec/plan name Vertex (or equivalent) as second-adapter target; no rewrite of hexagonal ports required to add it.
 
 ## Related
 
-`007` recepción: lectura de **foto/PDF de guía** y **foto de app de domicilio**
-(propuesta de campos; no búsqueda web/Places). `006`/`008` fases 2–3 ·
-constitution · notificaciones push “listo”  
-Defs + **agents-runtime ECS** → `labsmyg-agents` (`001`, `003`).
+`007` guía/foto · `006`/`008` · agents `001`/`003` · iac inventory (Bedrock; Vertex deferred) · iac **`006` FinOps** (alertas Bedrock + GCP cuando Vertex) · blueprint §10

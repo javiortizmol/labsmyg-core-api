@@ -1,0 +1,23 @@
+---
+description: Transversal at-least-once delivery + idempotency for every generated solution
+alwaysApply: true
+---
+
+# Delivery & idempotency (transversal)
+
+SoT: `docs/event-delivery-reliability.md` (spec `011`). Applies to **every**
+new domain/worker/command — not optional per feature.
+
+## MUST (when the flow writes or publishes)
+
+- Same MySQL transaction: aggregate + audit + outbox (or command outbox)
+- Publisher marks published **only after** broker ACK
+- Consumers: inbox `UNIQUE (consumer_id, event_id)`
+- At-least-once + DLQ + alarm; never silent drop
+- Critical HTTP creates: `Idempotency-Key` (`022`) **and** outbox if they emit
+
+## MUST NOT
+
+- `PutEvents` / `SendMessage` inside the HTTP use case (dual-write)
+- Skip inbox because “we already have Idempotency-Key”
+- Invent a per-domain bus or fire-and-forget side effect

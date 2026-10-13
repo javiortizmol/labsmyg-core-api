@@ -66,6 +66,7 @@ weaken a locked rule).
 | Cross-feature FR/SC | No contradiction with related `specs/*` (cite IDs) | | |
 | Sibling repos | API, front, IdM, notifications, IaC, modules, and pipe templates stay coherent | | |
 | Quality / TDD | Plan includes test tasks for coded behavior; no honest-green shortcuts | | |
+| Delivery / idempotency | Transversal: outbox+inbox / HTTP keys if the slice writes or publishes; N/A only if no write and no message (`011`) | | |
 | Breaking UX / API | Migrations, deprecations, or dual-read called out | | |
 
 **Related specs reviewed**: [e.g. `001` — or “none beyond constitution”]

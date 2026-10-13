@@ -29,7 +29,7 @@ El blueprint describe un monorepo (`backend/`, `frontend/`, `infra/`, `notificat
 | [`008-communications-registry`](./008-communications-registry/spec.md) | 1 | COM y avisos (decisión de envío) |
 | [`009-approvals-engine`](./009-approvals-engine/spec.md) | 1 | Enlace + OTP de aprobación |
 | [`010-files-documents`](./010-files-documents/spec.md) | 1 | S3/presigned + PDF |
-| [`011-domain-events-workers`](./011-domain-events-workers/spec.md) | 1 | Outbox, EventBridge, jobs |
+| [`011-domain-events-workers`](./011-domain-events-workers/spec.md) | 1 | Outbox/inbox, at-least-once, EventBridge, jobs — [`event-delivery-reliability.md`](../docs/event-delivery-reliability.md) |
 | [`012-laboratory`](./012-laboratory/spec.md) | 4 | Ensayos/resultados (contratos tempranos) |
 | [`013-reports-delivery`](./013-reports-delivery/spec.md) | 4 | Informes, firma, entrega |
 | [`014-ai-ports`](./014-ai-ports/spec.md) | 1–2 | Puertos IA; adaptadores desde fase 2 |

@@ -19,7 +19,10 @@ product/code request in this repo, the agent MUST bootstrap the harness
    (use `--json --require-tasks --include-tasks` when implementing coded work).
 4. Skim the active feature’s `spec.md` / `plan.md` / `tasks.md` as needed for
    the ask — do not invent a parallel process outside `specs/`.
-5. Obey project rules: quality gates, sibling-repo ownership, and this constitution.
+5. Obey project rules: quality gates, sibling-repo ownership, **code shape**
+   (`.cursor/rules/code-shape.mdc`), and this constitution.
+6. Entry for humans/agents: repo-root `AGENTS.md` (SDD pointer). The user does
+   not type a command — this rule is already `alwaysApply`.
 
 ## Map the user’s ask (no slash commands required)
 

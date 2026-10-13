@@ -1,12 +1,13 @@
 # Tasks: Organización, configuración y numeración
 
-**Input**: `specs/002-platform-organization/spec.md` y plan.md
-**Prerequisites**: spec en estado Aprobada antes de implementar (blueprint §15).
-**Tests**: las historias con código llevan pruebas automáticas. No se debilitan para verlas en verde.
+**Input**: [spec.md](./spec.md) · [plan.md](./plan.md)
 
-- [ ] T001 [US1] Modelo y migraciones company/site/laboratory
-- [ ] T002 [US1] Rutas admin con ETag
+- [x] T000 Document M&G multi laboratory_type + CRUD instancias (no hardcode)
+- [x] T000b Seed types from laboratoriosmyg.com (10 labs)
+- [ ] T001 [US1] Modelo y migraciones company/site/laboratory_type/laboratory
+- [ ] T001b [US1b] CRUD laboratory_type (API + tests)
+- [ ] T002 [US1/US1b] Rutas admin laboratories/sites/companies con ETag
 - [ ] T003 [US2] NumberService concurrente (quote, order, sample, test, report, communication, reception)
 - [ ] T004 [US2] Prueba de unicidad bajo concurrencia
 - [ ] T005 [US3] Settings con defaults del blueprint
-- [ ] T006 Auditoría de escrituras vía puerto 003
+- [ ] T006 Auditoría + outbox de escrituras (`003` / `011`)
